@@ -3,9 +3,34 @@
 }
 
 .photograph-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
     background-color: #FAFAFA;
     height: 300px;
     margin: 0 100px;
+}
+
+.photograph-name {
+    color: #D3573C;
+    font-size: 40px;
+    margin-bottom: 0;
+}
+
+.photograph-location {
+    color: #901C1C;
+    margin-top: 4%;
+}
+
+.photograph-tagline {
+    color: #757575;
+}
+
+.photograph-img {
+    height: 200px;
+    width: 200px;
+
 }
 
 .contact_button {
@@ -21,6 +46,124 @@
     cursor: pointer;
 }
 
+#tri {
+    width: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 2%;
+    margin-left: 8%;
+}
+
+.medias {
+    display: flex;
+}
+
+.img-test1 {
+    background-color: blue;
+    width: 285px;
+    margin-left: 8%;
+    height: 20px;
+}
+
+.img-test2 {
+    background-color: green;
+    width: 285px;
+    margin-left: 8%;
+    height: 20px;
+}
+
+.img-test3 {
+    background-color: red;
+    width: 285px;
+    margin-left: 8%;
+    height: 20px;
+}
+
+/*Css importé pour le custom select*/
+.container {
+    position: relative;
+    margin-top: -3%;
+    margin-bottom: 10%;
+}
+
+.select {
+    position: relative;
+    /*width: 200px;*/
+    width: 140px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    text-transform: capitalize;
+    color: #fff;
+    background: #901C1C;
+    text-align: left;
+    padding: 0 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.select::after {
+    content: '';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+/*.select:hover {
+    background: #222222;
+}*/
+
+.select.active {
+    /*background: #222222;*/
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.options {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+    background: #901C1C;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+    display: none;
+}
+
+.options.active {
+    display: block;
+}
+
+.options .item {
+    color: #fff;
+    text-transform: capitalize;
+    width: 100%;
+    height: 30px;
+    padding: 0 15px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.options .item.active {
+    background: #901C1C;
+}
+
+.inter {
+    height: 1px;
+    width: 82%;
+    margin-left: 9%;
+    background-color: white;
+}
+
+/*Fin css du custom select*/
 .modal {
     border-radius: 5px;
     background-color: #DB8876;

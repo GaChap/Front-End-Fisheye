@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *:focus {
+            outline: none;
+        }*/
+
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ff6767;
+            font-family: 'roboto', sans-serif;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .select {
+            position: relative;
+            width: 200px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            text-transform: capitalize;
+            color: #fff;
+            background: #901C1C;
+            text-align: left;
+            padding: 0 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .select::after {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+        }
+
+        /*.select:hover {
+            background: #222222;
+        }*/
+
+        .select.active {
+            /*background: #222222;*/
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .options {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: fit-content;
+            background: #901C1C;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .options.active {
+            display: block;
+        }
+
+        .options .item {
+            color: #fff;
+            text-transform: capitalize;
+            width: 100%;
+            height: 30px;
+            padding: 0 15px;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .options .item.active {
+            background: #901C1C;
+        }
+
+        .inter {
+            height: 1px;
+            width: 82%;
+            margin-left: 9%;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!--surround the select box with a "custom-select" DIV element. Remember to set the width:-->
+    <div class="container">
+        <button class="select" name="select" value="options">options</button>
+        <div class="options">
+            <p class="item active">option 1</p>
+            <div class="inter"></div>
+            <p class="item">option 2</p>
+            <div class="inter"></div>
+            <p class="item">option 3</p>
+            <div class="inter"></div>
+            <p class="item">option 4</p>
+        </div>
+    </div>
+
+    <script>
+        const select = document.querySelector('.select');
+        const optionBox = document.querySelector('.options');
+        const options = [...document.querySelectorAll('.options .item')];
+
+        let activeOption = 0; // default should be 0
+
+        window.onclick = (e) => {
+            if (!e.target.className.includes('select')) {
+                select.classList.remove('active');
+                optionBox.classList.remove('active');
+            } else {
+                select.classList.toggle('active');
+                optionBox.classList.toggle('active');
+            }
+        }
+
+        options.forEach((item, i) => {
+            item.onmousemove = () => {
+                hoverOptions(i);
+            }
+        })
+
+        const hoverOptions = (i) => {
+            options[activeOption].classList.remove('active');
+            options[i].classList.add('active');
+            activeOption = i;
+            setValue();
+        }
+
+        window.onkeydown = (e) => {
+            if (select.className.includes('active')) {
+                e.preventDefault();
+                if (e.key === 'ArrowDown' && activeOption < options.length - 1) {
+                    hoverOptions(activeOption + 1);
+                } else if (e.key === 'ArrowUp' && activeOption > 0) {
+                    hoverOptions(activeOption - 1);
+                } else if (e.key === 'Enter') {
+                    select.classList.remove('active');
+                    optionBox.classList.remove('active');
+                }
+            }
+        }
+
+        const setValue = () => {
+            select.innerHTML = select.value = options[activeOption].innerHTML;
+        }
+
+        setValue();
+    </script>
+
+</body>
+
+</html>
