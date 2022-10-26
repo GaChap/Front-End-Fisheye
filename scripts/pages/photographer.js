@@ -31,6 +31,46 @@ async function media_filter(photographer_id) {
     })
     return media_collection;
 }
+async function generer_media(lePhotographe) {
+    const galerie = document.querySelector(".medias");
+    const prenom = lePhotographe.name.split(' ')[0];
+    const lesMedias = await media_filter(lePhotographe.id);
+    console.log(galerie)
+    lesMedias.forEach((leMedia) => {
+        const media_card = document.createElement("div");
+        media_card.classList.add("media-card");
+        if (leMedia.image != null || leMedia.image != undefined) {
+            const media_image = document.createElement("img");
+            media_image.src = `assets/images/${prenom}/mod/${leMedia.image}`;
+            media_card.appendChild(media_image);
+        }
+        else {
+            if (leMedia.video != null || leMedia.video != undefined) {
+                const media_miniat_src = leMedia.video.split('.')[0] + ".png";
+                const media_miniat = document.createElement("img");
+                media_miniat.src = `assets/images/${prenom}/mod/${media_miniat_src}`;
+                media_card.appendChild(media_miniat);
+            }
+        }
+        const media_card_info = document.createElement('div');
+        media_card_info.classList.add("media-card-info");
+        const media_card_like = document.createElement('div');
+        media_card_like.classList.add("media-card-like");
+        const media_title = document.createElement("p");
+        media_title.innerText = leMedia.title;
+        media_card_info.appendChild(media_title);
+        const media_like = document.createElement("p");
+        const media_icon = document.createElement("i");
+        media_icon.classList.add("fa-solid");
+        media_icon.classList.add("fa-heart");
+        media_like.innerText = leMedia.likes;
+        media_card_like.appendChild(media_like);
+        media_card_like.appendChild(media_icon);
+        media_card_info.appendChild(media_card_like);
+        media_card.appendChild(media_card_info);
+        galerie.appendChild(media_card);
+    })
+}
 //Lien URl
 const lien = window.location.href;
 //Id étant dans l'URL
@@ -38,6 +78,7 @@ const photographer_id = lien.split("=")[1];
 
 const photographe = photographer_filter(photographer_id);
 photographe.then((photographe) => {
+    //Création du header de l'artiste
     const photograh_info = document.querySelector(".photograph-info");
     const photograph_header = document.querySelector(".photograph-header");
     const name = document.createElement("h1");
@@ -59,27 +100,59 @@ photographe.then((photographe) => {
     photographe_image.classList.add("photograph-img");
     photograph_header.appendChild(photographe_image);
 
+    //Création de la galerie
     const lesMedias = media_filter(photographer_id);
-    //console.log(photographe.name.split(" ")[0])
-    lesMedias.then((lesMedias) => {
+    generer_media(photographe);
+    /*lesMedias.then((lesMedias) => {
         const galerie = document.querySelector(".medias");
         const prenom = photographe.name.split(' ')[0];
-        /* lesMedias.forEach((leMedia) => {
-             const media_card = createElement("div");
-             media_card.classList.add("media-card");
-             if (leMedia.image != null || leMedia.image != undefined) {
-                 const media_image = document.createElement("img");
-                 media_image.src=`assets/images/${prenom}/${leMedia.image}`;
-             }
-             else{
-                 if(leMedia.video != null || leMedia.video != undefined)
-                 {
-                     const media_miniat = document.createElement("video");
-                 }
-             }
-         })*/
+        const collect_media = [];
+        for (let i = 0; i < lesMedias.length; i++) {
+            collect_media.push(lesMedias[i]);
+        }
+        collect_media.forEach((leMedia) => {
+            const media_card = createElement("div");
+            media_card.classList.add("media-card");
+            if (leMedia.image != null || leMedia.image != undefined) {
+                const media_image = document.createElement("img");
+                media_image.src = `assets/images/${prenom}/mod/${leMedia.image}`;
+                media_card.appendChild(media_image);
+            }
+            else {
+                if (leMedia.video != null || leMedia.video != undefined) {
+                    const media_miniat_src = leMedia.video.split('.')[0] + ".png";
+                    const media_miniat = document.createElement("img");
+                    media_miniat.src = media_miniat_src;
+                    media_card.appendChild(media_miniat);
+                }
+            }
+            galerie.appendChild(media_card);
+        })
+    })*/
+    //en chantier
+    /*lesMedias.then((lesMedias) => {
+        const galerie = document.querySelector(".medias");
+        const prenom = photographe.name.split(' ')[0];
+        lesMedias.forEach((leMedia) => {
+            const media_card = createElement("div");
+            media_card.classList.add("media-card");
+            if (leMedia.image != null || leMedia.image != undefined) {
+                const media_image = document.createElement("img");
+                media_image.src = `assets/images/${prenom}/mod/${leMedia.image}`;
+                media_card.appendChild(media_image);
+            }
+            else {
+                if (leMedia.video != null || leMedia.video != undefined) {
+                    const media_miniat_src = leMedia.video.split('.')[0] + ".png";
+                    const media_miniat = document.createElement("img");
+                    media_miniat.src = media_miniat_src;
+                    media_card.appendChild(media_miniat);
+                }
+            }
+            galerie.appendChild(media_card);
+        })
         //console.log(lesMedias.length);
-    })
+    })*/
 })
 
 /*Js importé custom select*/

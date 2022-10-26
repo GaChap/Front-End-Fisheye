@@ -56,28 +56,48 @@
 }
 
 .medias {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 70px;
+    margin-left: 8%;
+    margin-bottom: 5%;
+}
+
+.media-card {
+    width: 285px;
+}
+
+.media-card img {
+    height: 285px;
+    width: 285px;
+}
+
+.media-card-info {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #901C1C;
+
 }
 
-.img-test1 {
-    background-color: blue;
-    width: 285px;
-    margin-left: 8%;
-    height: 20px;
+.media-card-info p {
+    margin-top: 6px;
+    font-size: 25px;
 }
 
-.img-test2 {
-    background-color: green;
-    width: 285px;
-    margin-left: 8%;
-    height: 20px;
+.media-card-like {
+    display: flex;
+    flex-direction: row;
+    width: 68px;
 }
 
-.img-test3 {
-    background-color: red;
-    width: 285px;
-    margin-left: 8%;
-    height: 20px;
+.media-card-like p {
+    padding-right: 10px;
+}
+
+.media-card-like i {
+    font-size: 25px;
+    padding-top: 10.5px;
 }
 
 /*Css importé pour le custom select*/
