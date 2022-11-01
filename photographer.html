@@ -22,7 +22,7 @@
       <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
     </div>
     <div id="tri">
-      <label for="tri-select">Triez par </label>
+      <label for="select">Triez par </label>
       <!--<select name="tri-select" id="tri-select">
         <option value="popularite">Popularité</option>
         <div class="inter"></div>
@@ -33,35 +33,67 @@
       <div class="container">
         <button class="select" name="select" value="options">options</button>
         <div class="options">
-          <p class="item active">option 1</p>
+          <p class="item active" onclick="affValeur(), selectPop()">Popularité</p>
           <div class="inter"></div>
-          <p class="item">option 2</p>
+          <p class="item" onclick="affValeur(), selectDate()">Date</p>
           <div class="inter"></div>
-          <p class="item">option 3</p>
-          <div class="inter"></div>
-          <p class="item">option 4</p>
+          <p class="item" onclick="affValeur(), selectTitre()">Titre</p>
         </div>
       </div>
-
     </div>
     <div class="medias">
     </div>
+    <div class="photograph-more-info">
+      <div class="more-info-likes"></div>
+    </div>
   </main>
+  <!--Modal formulaire contact-->
   <div id="contact_modal">
     <div class="modal">
       <header>
         <h2>Contactez-moi</h2>
-        <img src="assets/icons/close.svg" onclick="closeModal()" />
+        <img src="assets/icons/close.svg" onclick="closeModalC()" />
       </header>
-      <form>
+      <form onsubmit="submit()">
         <div>
-          <label>Prénom</label>
-          <input />
+          <label id="prem_label" for="prenom">Prénom</label>
+          <input type="text" id="prenom" />
+        </div>
+        <div>
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" />
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message"></textarea>
         </div>
         <button class="contact_button">Envoyer</button>
       </form>
     </div>
   </div>
+
+  <!--Modal lightbox-->
+  <div id="myModal" class="lightBox-modal">
+    <span class="lightBox-close cursor" onclick="closeModal()">
+      <!--&times;--><i class="fa-solid fa-xmark"></i>
+    </span>
+    <div class="lightBox-modal-content">
+
+      <!--<div class="mySlides">
+        <img src="assets/images/Mimi/mod/Animals_Rainbow.jpg" style="width:100%">
+        <p class="lightBox-title">Test text</p>
+      </div>-->
+
+
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+  </div>
+
   <script src="/scripts/pages/photographer.js"></script>
   <script src="/scripts/utils/contactForm.js"></script>
 </body>
