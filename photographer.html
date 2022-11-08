@@ -13,7 +13,8 @@
 
 <body>
   <header>
-    <a href="index.html"> <img src="assets/images/logo.png" class="logo" /></a>
+    <a href="index.html"> <img src="assets/images/logo.png" class="logo" alt="Fisheye Home Page" /></a>
+    <!--<input class="btn_test" value="Click here" type="button">-->
   </header>
   <main id="main">
     <div class="photograph-header">
@@ -54,7 +55,7 @@
         <h2>Contactez-moi</h2>
         <img src="assets/icons/close.svg" onclick="closeModalC()" />
       </header>
-      <form onsubmit="submit()">
+      <form onsubmit="return Validate()">
         <div>
           <label id="prem_label" for="prenom">Prénom</label>
           <input type="text" id="prenom" />
@@ -71,15 +72,16 @@
           <label for="message">Message</label>
           <textarea id="message"></textarea>
         </div>
-        <button class="contact_button">Envoyer</button>
+        <button class="contact_button" id="contact_button">Envoyer</button>
       </form>
     </div>
   </div>
 
   <!--Modal lightbox-->
   <div id="myModal" class="lightBox-modal">
-    <span class="lightBox-close cursor" onclick="closeModal()">
-      <!--&times;--><i class="fa-solid fa-xmark"></i>
+    <input class="lightBox-close cursor" onclick="closeModal()" value="&times;" type="button">
+    <!--<span class="lightBox-close cursor" onclick="closeModal()">-->
+    <!--&times;--><i class="fa-solid fa-xmark"></i>
     </span>
     <div class="lightBox-modal-content">
 
@@ -89,8 +91,10 @@
       </div>-->
 
 
-      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+      <!--<a class="prev" onclick="plusSlides(-1)">&#10094;</a>-->
+      <!--<a class="next" onclick="plusSlides(1)">&#10095;</a>-->
+      <input class="prev" onclick="plusSlides(-1)" type="button" value="&#10094;">
+      <input class="next" onclick="plusSlides(1)" type="button" value="&#10095;">
     </div>
   </div>
 

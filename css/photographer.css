@@ -55,6 +55,16 @@
     margin-left: 8%;
 }
 
+.modal-Link {
+    text-decoration: none;
+    /*height: 285px;*/
+}
+
+input[type="button"] {
+    background-color: transparent;
+    border-color: transparent;
+}
+
 .medias {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -110,7 +120,6 @@
 
 .select {
     position: relative;
-    /*width: 200px;*/
     width: 140px;
     height: 40px;
     border-radius: 10px;
@@ -136,12 +145,7 @@
     border-bottom: 2px solid #fff;
 }
 
-/*.select:hover {
-    background: #222222;
-}*/
-
 .select.active {
-    /*background: #222222;*/
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }

@@ -26,17 +26,14 @@ async function displayData(photographers) {
         const userCardDOM = photographerModel.getUserCardDOM();
         const ElemLien = document.createElement("a");
         ElemLien.href = `photographer.html?id=${photographer.id}`;
-        //console.log(photographer.id);
         ElemLien.classList.add("nonUnderLineLink");
         photographersSection.appendChild(ElemLien);
         ElemLien.appendChild(userCardDOM);
-        //photographersSection.appendChild(userCardDOM);
     });
 };
 async function init() {
     // Récupère les datas des photographes
     const { photographers } = await getPhotographers();
     displayData(photographers);
-    //console.log(Array.from(document.querySelectorAll(".nonUnderLineLink")));
 };
 init();
