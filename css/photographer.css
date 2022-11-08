@@ -310,7 +310,7 @@ form input {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 /* Modal Content */
@@ -354,8 +354,9 @@ form input {
 }
 
 video {
-    width: 570px;
-    height: 285px;
+    /*margin-left: 30px;*/
+    width: 587px;
+    height: 383px;
 }
 
 /* Next & previous buttons */
@@ -383,9 +384,9 @@ video {
 }
 
 div[class="mySlides"] img {
-    padding-left: 25%;
-    height: 285px;
-    width: 285px;
+    padding-left: 13%;
+    height: 383px;
+    width: 383px;
 }
 
 div[class="mySlides"] p {

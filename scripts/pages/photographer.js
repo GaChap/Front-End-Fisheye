@@ -96,7 +96,7 @@ async function generer_media(lePhotographe, Medias) {
         media_card_like.appendChild(media_icon);
         media_card_info.appendChild(media_card_like);
         media_card.appendChild(media_card_info);
-        media_card.setAttribute('onclick', `currentSlide(${n})`);
+        //media_card.setAttribute('onclick', `currentSlide(${n})`);
         //Ecouteur pour ouvrir la modale
         /*media_card.firstChild.addEventListener("click", (event) => {
             openModalLightbox()
@@ -283,6 +283,14 @@ function getFormData() {
 }
 document.querySelector("#contact_button").addEventListener("click", event => {
     event.preventDefault();
+    const Values = getFormData();
+    console.log(Values);
+})
+document.querySelector(".contact_button").addEventListener("click", (e) => {
+    document.querySelector("#prenom").focus();
+})
+document.querySelector(".formCloseLink").addEventListener("click", (e) => {
+    e.preventDefault();
 })
 function Validate(Values) {
     let errors = 0;
@@ -354,8 +362,8 @@ function showSlides(n) {
     }
     slides[slideIndex - 1].style.display = "block";
 }
-//Event listener pour fermer la modale
-document.getElementsByClassName("fa-xmark")[0].addEventListener("click", event => {
+//Event listener pour fermer la modale lightbox
+document.getElementsByClassName("lightBox-close")[0].addEventListener("click", event => {
     document.getElementById("myModal").style.display = "none";
 })
 //Event listener pour fermer la modale en cliquant en-dehors

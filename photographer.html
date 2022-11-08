@@ -53,7 +53,9 @@
     <div class="modal">
       <header>
         <h2>Contactez-moi</h2>
-        <img src="assets/icons/close.svg" onclick="closeModalC()" />
+        <a class="formCloseLink" href="#">
+          <img class="formClose" src="assets/icons/close.svg" onclick="closeModalC()" />
+        </a>
       </header>
       <form onsubmit="return Validate()">
         <div>
@@ -81,7 +83,7 @@
   <div id="myModal" class="lightBox-modal">
     <input class="lightBox-close cursor" onclick="closeModal()" value="&times;" type="button">
     <!--<span class="lightBox-close cursor" onclick="closeModal()">-->
-    <!--&times;--><i class="fa-solid fa-xmark"></i>
+    <!--&times;<i class="fa-solid fa-xmark"></i>-->
     </span>
     <div class="lightBox-modal-content">
 
