@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
   <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -23,7 +23,7 @@
       <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
     </div>
     <div id="tri">
-      <label for="select">Triez par </label>
+      <label id="selectLabel" for="select">Triez par </label>
       <!--<select name="tri-select" id="tri-select">
         <option value="popularite">Popularité</option>
         <div class="inter"></div>
@@ -32,8 +32,10 @@
         <option value="titre">Titre</option>
       </select>-->
       <div class="container">
-        <button class="select" name="select" value="options">options</button>
-        <div class="options">
+        <button class="select" name="select" value="options" role="button" aria-haspopup="listbox" aria-expanded="true"
+          onchange="TestChange()">options</button>
+        <div class="options" role="listbox" aria-activedescendant="true" aria-selected="true"
+          aria-labelledby="selectLabel">
           <p class="item active" onclick="affValeur(), selectPop()">Popularité</p>
           <div class="inter"></div>
           <p class="item" onclick="affValeur(), selectDate()">Date</p>
@@ -54,7 +56,7 @@
       <header>
         <h2>Contactez-moi</h2>
         <a class="formCloseLink" href="#">
-          <img class="formClose" src="assets/icons/close.svg" onclick="closeModalC()" />
+          <img class="formClose" src="assets/icons/close.svg" onclick="closeModalC()" alt="closeIcon" />
         </a>
       </header>
       <form onsubmit="return Validate()">
@@ -80,7 +82,7 @@
   </div>
 
   <!--Modal lightbox-->
-  <div id="myModal" class="lightBox-modal">
+  <div id="myModal" class="lightBox-modal" aria-label="image closeup view">
     <input class="lightBox-close cursor" onclick="closeModal()" value="&times;" type="button">
     <!--<span class="lightBox-close cursor" onclick="closeModal()">-->
     <!--&times;<i class="fa-solid fa-xmark"></i>-->
