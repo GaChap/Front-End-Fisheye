@@ -1,13 +1,8 @@
 /**@format */
-//Fonctions importées
 //Pour récupérer la totalité des données
 import { get_data } from "../utils/fetchData.mjs";
-//Pour créer un élément
-import { createElement } from "../factories/domElement.mjs";
-//Pour récupérer un élément
-import { querySelector } from "../factories/domElement.mjs";
-//Insérer un (ou plusieurs) élément enfant à un élément parent
-import { appendElement } from "../factories/domElement.mjs";
+//Pour créer, récupérer et insérer un (ou plusieurs) élément enfant à un élément parent
+import { createElement, querySelector, appendElement } from "../factories/domElement.mjs";
 //Déconstruction pour pouvoir utiliser en variables
 const { photographers, media } = await get_data();
 //Génération des boutons "suivant" et "précédent"
@@ -101,7 +96,7 @@ async function generer_media(lePhotographe, Medias) {
         modalLink.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 openModalLightbox();
-                currentSlide(3);
+                currentSlide(2);
                 querySelector(".prev").focus();
             }
         })
