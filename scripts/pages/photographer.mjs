@@ -1,16 +1,20 @@
-//Récupère l'ensemble des données
-async function get_data() {
-    try {
-        const r = await fetch("data/photographers.json")
-        const data = await r.json()
-        return data
-    }
-    catch (error) {
-    }
-}
+/**@format */
+//Fonctions importées
+//Pour récupérer la totalité des données
+import { get_data } from "../utils/fetchData.mjs";
+//Pour créer un élément
+import { createElement } from "../factories/domElement.mjs";
+//Pour récupérer un élément
+import { querySelector } from "../factories/domElement.mjs";
+//Insérer un (ou plusieurs) élément enfant à un élément parent
+import { appendElement } from "../factories/domElement.mjs";
+//Déconstruction pour pouvoir utiliser en variables
+const { photographers, media } = await get_data();
+//Génération des boutons "suivant" et "précédent"
+const divModal = document.querySelector(".lightBox-modal-content");
+prevNext(divModal);
 //Fonction pour récupérer l'artiste correspondant à l'Id
 async function photographer_filter(photographer_id) {
-    const { photographers } = await get_data();
     let lephotographe = undefined;
     photographers.forEach((photographer) => {
         if (photographer.id == photographer_id) {
@@ -21,7 +25,6 @@ async function photographer_filter(photographer_id) {
 }
 //Fonction pour récupérer les oeuvres de l'artiste correspondant à l'Id
 async function media_filter(photographer_id) {
-    const { media } = await get_data();
     const media_collection = [];
     media.forEach((leMedia) => {
         if (leMedia.photographerId == photographer_id) {
@@ -32,52 +35,48 @@ async function media_filter(photographer_id) {
 }
 //Fonction pour afficher les images et générer le contenu lightbox
 async function generer_media(lePhotographe, Medias) {
-    const galerie = document.querySelector(".medias");
+    const galerie = querySelector(".medias");
     const prenom = lePhotographe.name.split(' ')[0];
     let lesMedias = await media_filter(lePhotographe.id);
-    const lightbox_content = document.querySelector(".lightBox-modal-content");
+    const lightbox_content = querySelector(".lightBox-modal-content");
     /*Utilisation d'un paramètre facultatif pour déterminer les médias à afficher 
     "null" pour ceux de base et autre si personnalisé*/
     if (Medias != null || Medias != undefined) { lesMedias = Medias; }
-    let n = 1;
+    let n = 0;
     //Boucle pour générer et placer les images
     lesMedias.forEach((leMedia) => {
-        const modalLink = document.createElement("a");
-        const mySlides = document.createElement("div");
+        const modalLink = createElement("a");
+        const mySlides = createElement("div");
         mySlides.classList.add("mySlides");
-        const title = document.createElement("p");
-        const media_card = document.createElement("div");
+        const title = createElement("p");
+        const media_card = createElement("div");
         media_card.classList.add("media-card");
-        //Si attribut image
-        if (leMedia.image != null || leMedia.image != undefined) {
-            const media_image = document.createElement("img");
-            media_image.src = `assets/images/${prenom}/mod/${leMedia.image}`;
-            media_image.alt = `${leMedia.title}`;
-            media_card.appendChild(media_image);
+        const media_img = createElement("img");
+        //Test pour savoir quelle source appliquer et générer vidéo
+        if (leMedia.video != null || leMedia.video != undefined) {
+            const media_miniat_src = leMedia.video.split('.')[0] + ".png";
+            media_img.src = `assets/images/${prenom}/mod/${media_miniat_src}`;
+            //Creation vidéo pour la modale
+            const media_video = createElement("video");
+            media_video.src = `assets/images/${prenom}/${leMedia.video}`;
+            media_video.poster = media_img.src;
+            media_video.controls = true;
+            appendElement(mySlides, [media_video]);
+        } else {
+            media_img.src = `assets/images/${prenom}/mod/${leMedia.image}`;
             const modal_image = document.createElement("img");
-            modal_image.src = media_image.src;
-            media_image.setAttribute('onclick', `currentSlide(${n})`);
-            mySlides.appendChild(modal_image);
+            modal_image.src = media_img.src;
+            appendElement(mySlides, [modal_image]);
         }
-        else {
-            //Si attribut video
-            if (leMedia.video != null || leMedia.video != undefined) {
-                const media_miniat_src = leMedia.video.split('.')[0] + ".png";
-                const media_miniat = document.createElement("img");
-                media_miniat.src = `assets/images/${prenom}/mod/${media_miniat_src}`;
-                media_card.appendChild(media_miniat);
-                //Creation vidéo pour la modale
-                const media_video = document.createElement("video");
-                media_video.src = `assets/images/${prenom}/${leMedia.video}`;
-                media_video.poster = media_miniat.src;
-                media_video.controls = true;
-                media_miniat.setAttribute('onclick', `currentSlide(${n})`);//
-                mySlides.appendChild(media_video);
-            }
-        }
+        media_img.alt = `${leMedia.title}`;
+        appendElement(media_card, [media_img]);
+        media_img.addEventListener("click", (e) => {
+            currentSlide(1);
+            querySelector(".prev").focus();
+        })
         title.innerText = leMedia.title;
-        mySlides.appendChild(title);
-        lightbox_content.appendChild(mySlides);
+        appendElement(mySlides, [title]);
+        appendElement(lightbox_content, [mySlides]);
         modalLink.href = " ";
         modalLink.classList.add("modal-Link");
         //Générer les info des img
@@ -87,31 +86,29 @@ async function generer_media(lePhotographe, Medias) {
         media_card_like.classList.add("media-card-like");
         const media_title = document.createElement("p");
         media_title.innerText = leMedia.title;
-        media_card_info.appendChild(media_title);
+        //media_card_info.appendChild(media_title);
+        appendElement(media_card_info, [media_title]);
         const media_like = document.createElement("p");
         const media_icon = document.createElement("i");
         media_icon.classList.add("fa-solid");
         media_icon.classList.add("fa-heart");
         media_icon.ariaLabel = "likes"
         media_like.innerText = leMedia.likes;
-        media_card_like.appendChild(media_like);
-        media_card_like.appendChild(media_icon);
-        media_card_info.appendChild(media_card_like);
-        media_card.appendChild(media_card_info);
+        appendElement(media_card_like, [media_like, media_icon]);
+        appendElement(media_card_info, [media_card_like]);
+        appendElement(media_card, [media_card_info]);
         //Ecouteur pour ouvrir la modale
         modalLink.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 openModalLightbox();
-                //currentSlide(n);
-                const bg = document.querySelector(".prev");
-                bg.focus();
+                currentSlide(3);
+                querySelector(".prev").focus();
             }
         })
         //Ecouteur pour placer le focus sur le bouton "précédent"
         media_card.firstChild.addEventListener("click", (event) => {
             openModalLightbox();
-            const bg = document.querySelector(".prev");
-            bg.focus();
+            querySelector(".prev").focus();
         })
         modalLink.addEventListener("click", (event) => {
             event.preventDefault();
@@ -119,16 +116,15 @@ async function generer_media(lePhotographe, Medias) {
         //Ecouteur pour incrémenter le like de l'image et du total de like
         media_icon.addEventListener("click", event => {
             media_like.innerText++;
-            document.querySelector(".more-info-likes").lastChild.innerText++;
+            querySelector(".more-info-likes").lastChild.innerText++;
         })
-        modalLink.appendChild(media_card);
+        appendElement(modalLink, [media_card]);
+        appendElement(galerie, [modalLink]);
         n++;
-        galerie.appendChild(modalLink);
     })
 }
-
 //Ecouteurs d'évènement pour diriger la lightbox avec le clavier
-const modalPrevBtn = document.querySelector(".prev");
+const modalPrevBtn = querySelector(".prev");
 modalPrevBtn.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
         plusSlides(-1);
@@ -139,7 +135,8 @@ modalPrevBtn.addEventListener("keydown", (e) => {
         }
     }
 })
-const modalNextBtn = document.querySelector(".next");
+
+const modalNextBtn = querySelector(".next");
 modalNextBtn.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
         plusSlides(-1);
@@ -150,62 +147,43 @@ modalNextBtn.addEventListener("keydown", (e) => {
         }
     }
 })
-//fonction tri popularité (le + de like)
-async function selectPop() {
-    const lesMedias = await media_filter(lien.split("=")[1]);
-    const divMedia = document.querySelector(".medias");
-    const divModal = document.querySelector(".lightBox-modal-content");
-    const lesMediasReord = Array.from(lesMedias);
-    lesMediasReord.sort(function (a, b) {
-        return b.likes - a.likes;//a-b pour croissant b-a pour décroissant
-    });
-    divMedia.innerHTML = "";
-    divModal.innerHTML = "";
-    prevNext(divModal);
-    const photographe = await photographer_filter(photographer_id);
-    generer_media(photographe, lesMediasReord);
-}
 //Générer auto des boutons prev et next pour lightbox lors du tri
 function prevNext(divModal) {
-    const classes1 = ["prev", "fa-solid", "fa-angle-left"];
-    const classes2 = ["next", "fa-solid", "fa-angle-right"];
-    const prev = document.createElement("i");
-    prev.classList.add(classes1[0]);
-    prev.classList.add(classes1[1]);
-    prev.classList.add(classes1[2]);
-    prev.setAttribute("onclick", "plusSlides(-1)");
-    const next = document.createElement("i");
-    next.classList.add(classes2[0]);
-    next.classList.add(classes2[1]);
-    next.classList.add(classes2[2]);
-    next.setAttribute("onclick", "plusSlides(1)");
-    divModal.appendChild(prev);
-    divModal.appendChild(next);
+    const prev = createElement("input");
+    prev.type = "button";
+    prev.value = "❮";
+    prev.classList.add("prev");
+    const next = createElement("input");
+    next.type = "button";
+    next.value = "❯";
+    next.classList.add("next");
+    appendElement(divModal, [prev, next]);
+    prev.addEventListener("click", (e) => {
+        plusSlides(-1);
+    })
+    next.addEventListener("click", (e) => {
+        plusSlides(1);
+    })
 }
-//fonction tri titre (alphabétique)
-async function selectTitre() {
+async function selectGen(type) {
     const lesMedias = await media_filter(lien.split("=")[1]);
-    const divMedia = document.querySelector(".medias");
-    const divModal = document.querySelector(".lightBox-modal-content");
+    const divMedia = querySelector(".medias");
+    const divModal = querySelector(".lightBox-modal-content");
     const lesMediasReord = Array.from(lesMedias);
-    lesMediasReord.sort(function (x, y) {
-        return x.title.toString().localeCompare(y.title.toString());//a-b pour croissant b-a pour décroissant
-    });
-    divMedia.innerHTML = "";
-    divModal.innerHTML = "";
-    prevNext(divModal);
-    const photographe = await photographer_filter(photographer_id);
-    generer_media(photographe, lesMediasReord);
-}
-//fonction tri Date (Alphanumérique le + jeune)
-async function selectDate() {
-    const lesMedias = await media_filter(lien.split("=")[1]);
-    const divMedia = document.querySelector(".medias");
-    const divModal = document.querySelector(".lightBox-modal-content");
-    const lesMediasReord = Array.from(lesMedias);
-    lesMediasReord.sort(function (x, y) {
-        return y.date.toString().localeCompare(x.date.toString());//a-b pour croissant b-a pour décroissant
-    });
+    switch (type) {
+        case "popularite": lesMediasReord.sort(function (a, b) {
+            return b.likes - a.likes;//a-b pour croissant b-a pour décroissant
+        });
+            break;
+        case "titre": lesMediasReord.sort(function (x, y) {
+            return x.title.toString().localeCompare(y.title.toString());//a-b pour croissant b-a pour décroissant
+        });
+            break;
+        case "date": lesMediasReord.sort(function (x, y) {
+            return y.date.toString().localeCompare(x.date.toString());//a-b pour croissant b-a pour décroissant
+        });
+            break;
+    }
     divMedia.innerHTML = "";
     divModal.innerHTML = "";
     prevNext(divModal);
@@ -215,12 +193,12 @@ async function selectDate() {
 //Génère la bande rose en bas à droite de l'écran
 async function get_more_info(lePhotographe) {
     const lesMedias = await media_filter(lePhotographe.id);
-    const more_info = document.querySelector(".photograph-more-info");
-    const more_info_likes = document.querySelector(".more-info-likes");
-    const info_likes = document.createElement("p");
-    const more_info_price = document.createElement("p");
+    const more_info = querySelector(".photograph-more-info");
+    const more_info_likes = querySelector(".more-info-likes");
+    const info_likes = createElement("p");
+    const more_info_price = createElement("p");
     more_info_price.innerText = lePhotographe.price + "€ " + "/ jour";
-    const media_icon = document.createElement("i");
+    const media_icon = createElement("i");
     media_icon.classList.add("fa-solid");
     media_icon.classList.add("fa-heart");
     let total_like = 0;
@@ -228,26 +206,35 @@ async function get_more_info(lePhotographe) {
         total_like += leMedia.likes
     })
     info_likes.innerText = total_like;
-    more_info_likes.appendChild(info_likes);
-    more_info.appendChild(media_icon);
-    more_info.appendChild(more_info_price);
+    appendElement(more_info_likes, [info_likes]);
+    appendElement(more_info, [media_icon, more_info_price]);
 }
 
 //Lien URl
 const lien = window.location.href;
 //Id étant dans l'URL
 const photographer_id = lien.split("=")[1];
+//Accessibilité au clic pour le select
+querySelector("#popularite").addEventListener("click", (e) => {
+    selectGen("popularite");
+})
+querySelector("#date").addEventListener("click", (e) => {
+    selectGen("date");
+})
+querySelector("#titre").addEventListener("click", (e) => {
+    selectGen("titre");
+})
 //Accessibilité au clavier pour le select
-const selectInput = document.querySelector('.select');
+const selectInput = querySelector('.select');
 selectInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         if (selectInput.value != "options") {
             switch (selectInput.value) {
-                case 'Popularité': selectPop();
+                case 'Popularité': selectGen("popularite");
                     break;
-                case 'Date': selectDate();
+                case 'Date': selectGen("date");
                     break;
-                case 'Titre': selectTitre();
+                case 'Titre': selectGen("titre");
                     break;
             }
         }
@@ -257,27 +244,25 @@ selectInput.addEventListener("keydown", (e) => {
 const photographe = photographer_filter(photographer_id);
 photographe.then((photographe) => {
     //Création du header de l'artiste
-    const photograh_info = document.querySelector(".photograph-info");
-    const photograph_header = document.querySelector(".photograph-header");
-    const name = document.createElement("h1");
+    const photograh_info = querySelector(".photograph-info");
+    const photograph_header = querySelector(".photograph-header");
+    const name = createElement("h1");
     name.innerText = photographe.name;
     name.classList.add("photograph-name");
-    photograh_info.appendChild(name);
-    const location = document.createElement("p");
+    const location = createElement("p");
     const location_text = photographe.city + ", " + photographe.country;
     location.innerText = location_text;
     location.classList.add("photograph-location");
-    photograh_info.appendChild(location);
     const slogan = document.createElement("p");
     slogan.innerText = photographe.tagline;
     slogan.classList.add("photograph-tagline");
-    photograh_info.appendChild(slogan);
+    appendElement(photograh_info, [name, location, slogan]);
     //Création de l'image de l'artiste dans le header
-    const photographe_image = document.createElement('img');
+    const photographe_image = createElement('img');
     photographe_image.src = `assets/photographers/${photographe.portrait}`;
     photographe_image.alt = " ";
     photographe_image.classList.add("photograph-img");
-    photograph_header.appendChild(photographe_image);
+    appendElement(photograph_header, [photographe_image]);
 
     //Création de la galerie
     const Medias = null;
@@ -287,32 +272,44 @@ photographe.then((photographe) => {
     //Génère la première ligne dans le form de contact
     document.getElementsByTagName("h2")[0].innerText += `    
     ${photographe.name}`;
+    const formButton = querySelector(".contact_button");
+    formButton.addEventListener("click", (e) => {
+        displayModal();
+    })
+    const closeButton = querySelector(".formClose");
+    closeButton.addEventListener("click", (e) => {
+        closeModalC();
+    })
 })
 //JS pour form contact
 function displayModal() {
-    document.querySelector("#contact-modal").style.display = "block";
+    querySelector("#contact_modal").style.display = "block";
+    querySelector("#prenom").focus();
 }
 function closeModalC() {
-    document.querySelector("#contact_modal").style.display = "none";
+    querySelector("#contact_modal").style.display = "none";
 }
 function getFormData() {
-    return Values = {
-        "prenom": document.querySelector("#prenom").value,
-        "nom": document.querySelector("#nom").value,
-        "email": document.querySelector("#email").value,
-        "message": document.querySelector("#message").value
+    const Values = {
+        "prenom": querySelector("#prenom").value,
+        "nom": querySelector("#nom").value,
+        "email": querySelector("#email").value,
+        "message": querySelector("#message").value
     };
+    return Values;
 }
 document.querySelector("#contact_button").addEventListener("click", event => {
     event.preventDefault();
     const Values = getFormData();
     console.log(Values);
 })
-document.querySelector(".contact_button").addEventListener("click", (e) => {
-    document.querySelector("#prenom").focus();
-})
 document.querySelector(".formCloseLink").addEventListener("click", (e) => {
     e.preventDefault();
+})
+document.querySelector(".formCloseLink").addEventListener("keydown", (e) => {
+    if (e.key == "Enter") {
+        closeModalC();
+    }
 })
 //Fin js contact
 //Js pour lightbox
@@ -323,7 +320,7 @@ function openModalLightbox() {
 
 // Close the Modal
 function closeModal() {
-    document.querySelector("#myModal").style.display = "none";
+    querySelector("#myModal").style.display = "none";
 }
 
 var slideIndex = 1;
@@ -350,7 +347,7 @@ function showSlides(n) {
 }
 //Event listener pour fermer la modale lightbox
 document.getElementsByClassName("lightBox-close")[0].addEventListener("click", event => {
-    document.getElementById("myModal").style.display = "none";
+    closeModal();
 })
 //Event listener pour fermer la modale en cliquant en-dehors
 document.getElementById("myModal").addEventListener("click", event => {
@@ -360,8 +357,8 @@ document.getElementById("myModal").addEventListener("click", event => {
 })
 //Fin js lightbox
 /*Js importé custom select*/
-const select = document.querySelector('.select');
-const optionBox = document.querySelector('.options');
+const select = querySelector('.select');
+const optionBox = querySelector('.options');
 const options = [...document.querySelectorAll('.options .item')];
 
 let activeOption = 0; // default should be 0
@@ -386,16 +383,6 @@ const hoverOptions = (i) => {
     options[i].classList.add('active');
     activeOption = i;
     setValue();
-}
-function affValeur() {
-    const options = document.querySelectorAll(".item");
-    options.forEach((option) => {
-        if (option.classList.contains("active")) {
-            option.style.display = "none";
-        } else {
-            option.style.display = "block";
-        }
-    })
 }
 window.onkeydown = (e) => {
     if (select.className.includes('active')) {

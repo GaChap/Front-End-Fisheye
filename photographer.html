@@ -20,7 +20,7 @@
     <div class="photograph-header">
       <div class="photograph-info">
       </div>
-      <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+      <button class="contact_button">Contactez-moi</button>
     </div>
     <div id="tri">
       <label id="selectLabel" for="select">Triez par </label>
@@ -32,15 +32,15 @@
         <option value="titre">Titre</option>
       </select>-->
       <div class="container">
-        <button class="select" name="select" value="options" role="button" aria-haspopup="listbox" aria-expanded="true"
-          onchange="TestChange()">options</button>
+        <button class="select" name="select" value="options" role="button" aria-haspopup="listbox"
+          aria-expanded="true">options</button>
         <div class="options" role="listbox" aria-activedescendant="true" aria-selected="true"
           aria-labelledby="selectLabel">
-          <p class="item active" onclick="affValeur(), selectPop()">Popularité</p>
+          <p class="item active" id="popularite">Popularité</p>
           <div class="inter"></div>
-          <p class="item" onclick="affValeur(), selectDate()">Date</p>
+          <p class="item" id="date">Date</p>
           <div class="inter"></div>
-          <p class="item" onclick="affValeur(), selectTitre()">Titre</p>
+          <p class="item" id="titre">Titre</p>
         </div>
       </div>
     </div>
@@ -56,10 +56,10 @@
       <header>
         <h2>Contactez-moi</h2>
         <a class="formCloseLink" href="#">
-          <img class="formClose" src="assets/icons/close.svg" onclick="closeModalC()" alt="closeIcon" />
+          <img class="formClose" src="assets/icons/close.svg" alt="closeIcon" />
         </a>
       </header>
-      <form onsubmit="return Validate()">
+      <form>
         <div>
           <label id="prem_label" for="prenom">Prénom</label>
           <input type="text" id="prenom" />
@@ -83,27 +83,17 @@
 
   <!--Modal lightbox-->
   <div id="myModal" class="lightBox-modal" aria-label="image closeup view">
-    <input class="lightBox-close cursor" onclick="closeModal()" value="&times;" type="button">
-    <!--<span class="lightBox-close cursor" onclick="closeModal()">-->
-    <!--&times;<i class="fa-solid fa-xmark"></i>-->
-    </span>
+    <input class="lightBox-close cursor" value="&times;" type="button">
     <div class="lightBox-modal-content">
-
-      <!--<div class="mySlides">
-        <img src="assets/images/Mimi/mod/Animals_Rainbow.jpg" style="width:100%">
-        <p class="lightBox-title">Test text</p>
-      </div>-->
-
-
-      <!--<a class="prev" onclick="plusSlides(-1)">&#10094;</a>-->
-      <!--<a class="next" onclick="plusSlides(1)">&#10095;</a>-->
-      <input class="prev" onclick="plusSlides(-1)" type="button" value="&#10094;">
-      <input class="next" onclick="plusSlides(1)" type="button" value="&#10095;">
+      <!--<input class="prev" type="button" value="&#10094;">
+      <input class="next" type="button" value="&#10095;">-->
     </div>
   </div>
 
-  <script src="/scripts/pages/photographer.js"></script>
-  <script src="/scripts/utils/contactForm.js"></script>
+  <script type="module" src="/scripts/pages/photographer.mjs"></script>
+  <script type="module" src="/scripts/utils/contactForm.mjs"></script>
+  <script type="module" src="/scripts/utils/fetchData.mjs"></script>
+  <script type="module" src="/scripts/factories/domElement.mjs"></script>
 </body>
 
 </html>
