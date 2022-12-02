@@ -61,6 +61,7 @@ async function generer_media(lePhotographe, Medias) {
             media_img.src = `assets/images/${prenom}/mod/${leMedia.image}`;
             const modal_image = document.createElement("img");
             modal_image.src = media_img.src;
+            modal_image.alt = leMedia.title;
             appendElement(mySlides, [modal_image]);
         }
         media_img.alt = `${leMedia.title}`;
@@ -79,11 +80,10 @@ async function generer_media(lePhotographe, Medias) {
         media_card_info.classList.add("media-card-info");
         const media_card_like = document.createElement('div');
         media_card_like.classList.add("media-card-like");
-        const media_title = document.createElement("p");
+        const media_title = document.createElement("span");
         media_title.innerText = leMedia.title;
-        //media_card_info.appendChild(media_title);
         appendElement(media_card_info, [media_title]);
-        const media_like = document.createElement("p");
+        const media_like = document.createElement("span");
         const media_icon = document.createElement("i");
         media_icon.classList.add("fa-solid");
         media_icon.classList.add("fa-heart");
@@ -108,10 +108,18 @@ async function generer_media(lePhotographe, Medias) {
         modalLink.addEventListener("click", (event) => {
             event.preventDefault();
         })
-        //Ecouteur pour incrémenter le like de l'image et du total de like
+        //Ecouteur pour incrémenter le like de l'image et du total de like une fois par oeuvre
         media_icon.addEventListener("click", event => {
-            media_like.innerText++;
-            querySelector(".more-info-likes").lastChild.innerText++;
+            const titreGalerie = media_like.parentElement.parentElement.firstChild;
+            lesMedias.forEach((Media) => {
+                if (Media.title === titreGalerie.innerText) {
+                    const likeMedia = Media.likes;
+                    if (likeMedia == media_like.innerText) {
+                        media_like.innerText++;
+                        querySelector(".more-info-likes").lastChild.innerText++;
+                    }
+                }
+            })
         })
         appendElement(modalLink, [media_card]);
         appendElement(galerie, [modalLink]);
@@ -190,8 +198,9 @@ async function get_more_info(lePhotographe) {
     const lesMedias = await media_filter(lePhotographe.id);
     const more_info = querySelector(".photograph-more-info");
     const more_info_likes = querySelector(".more-info-likes");
-    const info_likes = createElement("p");
-    const more_info_price = createElement("p");
+    const info_likes = createElement("span");
+    const more_info_price = createElement("span");
+    more_info_price.classList.add("more-info-text");
     more_info_price.innerText = lePhotographe.price + "€ " + "/ jour";
     const media_icon = createElement("i");
     media_icon.classList.add("fa-solid");
@@ -244,18 +253,18 @@ photographe.then((photographe) => {
     const name = createElement("h1");
     name.innerText = photographe.name;
     name.classList.add("photograph-name");
-    const location = createElement("p");
+    const location = createElement("span");
     const location_text = photographe.city + ", " + photographe.country;
     location.innerText = location_text;
     location.classList.add("photograph-location");
-    const slogan = document.createElement("p");
+    const slogan = document.createElement("span");
     slogan.innerText = photographe.tagline;
     slogan.classList.add("photograph-tagline");
     appendElement(photograh_info, [name, location, slogan]);
     //Création de l'image de l'artiste dans le header
     const photographe_image = createElement('img');
     photographe_image.src = `assets/photographers/${photographe.portrait}`;
-    photographe_image.alt = " ";
+    photographe_image.alt = photographe.name;
     photographe_image.classList.add("photograph-img");
     appendElement(photograph_header, [photographe_image]);
 

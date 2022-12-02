@@ -9,13 +9,13 @@ export function photographerFactory(data) {
         img.setAttribute("src", picture)
         const h2 = document.createElement('h2');
         h2.textContent = name;
-        const location = document.createElement('p');
+        const location = document.createElement('span');
         location.textContent = city + ', ' + country;
         location.classList.add('photographer_location');
-        const slogan = document.createElement('p');
+        const slogan = document.createElement('span');
         slogan.textContent = tagline;
         slogan.classList.add("photographer_slogan");
-        const pricePerDay = document.createElement('p');
+        const pricePerDay = document.createElement('span');
         pricePerDay.textContent = price + "€/jour";
         pricePerDay.classList.add("photographer_price");
         article.appendChild(img);

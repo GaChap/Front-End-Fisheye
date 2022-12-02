@@ -1,7 +1,6 @@
 import { photographerFactory } from "../factories/photographer.mjs";
 import { get_data } from "../utils/fetchData.mjs";
-import { createElement } from "../factories/domElement.mjs";
-import { appendElement } from "../factories/domElement.mjs";
+import { createElement, querySelector, appendElement } from "../factories/domElement.mjs";
 
 
 //Récupère les photographes des données extraites
@@ -14,7 +13,7 @@ async function getPhotographers() {
 }
 //Génère les "cartes" de photographe
 async function displayData(photographers) {
-    const photographersSection = document.querySelector(".photographer_section");
+    const photographersSection = querySelector(".photographer_section");
 
     photographers.forEach((photographer) => {
         const photographerModel = photographerFactory(photographer);

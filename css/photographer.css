@@ -24,6 +24,9 @@
 }
 
 .photograph-tagline {
+    position: relative;
+    top: 25px;
+    right: 82px;
     color: #757575;
 }
 
@@ -56,9 +59,7 @@
 }
 
 .modal-Link {
-    /*height: 74%;*/
     text-decoration: none;
-    /*height: 285px;*/
 }
 
 input[type="button"] {
@@ -92,7 +93,7 @@ input[type="button"] {
 
 }
 
-.media-card-info p {
+.media-card-info span {
     margin-top: 6px;
     font-size: 25px;
 }
@@ -110,6 +111,12 @@ input[type="button"] {
 .media-card-like i {
     font-size: 25px;
     padding-top: 10.5px;
+    padding-left: 6px;
+}
+
+.more-info-likes,
+.more-info-text {
+    padding-top: 17px;
 }
 
 /*Css importé pour le custom select*/
@@ -357,7 +364,6 @@ form input {
 }
 
 video {
-    /*margin-left: 30px;*/
     width: 587px;
     height: 383px;
 }
@@ -387,9 +393,6 @@ video {
 }
 
 div[class="mySlides"] img {
-    /*padding-left: 13%;
-    height: 383px;
-    width: 383px;*/
     margin-top: -50px;
     height: 600px;
     width: 600px;

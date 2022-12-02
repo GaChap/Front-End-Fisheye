@@ -50,7 +50,7 @@ h1 {
     text-decoration: none;
 }
 
-.photographer_section article p {
+.photographer_section article span {
     margin-bottom: 1%;
 }
 
@@ -66,6 +66,7 @@ h1 {
 
 .photographer_section article .photographer_location {
     color: #901C1C;
+    padding-top: 20px;
 }
 
 .photographer_section article img {
