@@ -110,7 +110,7 @@ async function generer_media(lePhotographe, Medias) {
         })
         //Ecouteur pour incrémenter le like de l'image et du total de like une fois par oeuvre
         media_icon.addEventListener("click", event => {
-            const titreGalerie = media_like.parentElement.parentElement.firstChild;
+            const titreGalerie = media_title;
             lesMedias.forEach((Media) => {
                 if (Media.title === titreGalerie.innerText) {
                     const likeMedia = Media.likes;
