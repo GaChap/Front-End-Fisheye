@@ -37,13 +37,13 @@ async function generer_media(lePhotographe, Medias) {
     /*Utilisation d'un paramètre facultatif pour déterminer les médias à afficher 
     "null" pour ceux de base et autre si personnalisé*/
     if (Medias != null || Medias != undefined) { lesMedias = Medias; }
-    let n = 0;
     //Boucle pour générer et placer les images
     lesMedias.forEach((leMedia) => {
         const modalLink = createElement("a");
         const mySlides = createElement("div");
         mySlides.classList.add("mySlides");
         const title = createElement("p");
+        title.innerText = leMedia.title;
         const media_card = createElement("div");
         media_card.classList.add("media-card");
         const media_img = createElement("img");
@@ -69,8 +69,11 @@ async function generer_media(lePhotographe, Medias) {
         media_img.addEventListener("click", (e) => {
             currentSlide(1);
             querySelector(".prev").focus();
+            const Test = document.querySelectorAll(".mySlides")
+            const TestArray = Array.from(Test);
+            console.log(TestArray[0].lastChild.innerText);
         })
-        title.innerText = leMedia.title;
+        //title.innerText = leMedia.title;
         appendElement(mySlides, [title]);
         appendElement(lightbox_content, [mySlides]);
         modalLink.href = " ";
@@ -108,6 +111,7 @@ async function generer_media(lePhotographe, Medias) {
         modalLink.addEventListener("click", (event) => {
             event.preventDefault();
         })
+
         //Ecouteur pour incrémenter le like de l'image et du total de like une fois par oeuvre
         media_icon.addEventListener("click", event => {
             const titreGalerie = media_title;
@@ -123,7 +127,6 @@ async function generer_media(lePhotographe, Medias) {
         })
         appendElement(modalLink, [media_card]);
         appendElement(galerie, [modalLink]);
-        n++;
     })
 }
 //Ecouteurs d'évènement pour diriger la lightbox avec le clavier
