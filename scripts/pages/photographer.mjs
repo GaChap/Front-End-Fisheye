@@ -5,6 +5,7 @@ import { get_data } from "../utils/fetchData.mjs";
 import { createElement, querySelector, appendElement } from "../factories/domElement.mjs";
 //Déconstruction pour pouvoir utiliser en variables
 const { photographers, media } = await get_data();
+console.log({ photographers, media });
 //Génération des boutons "suivant" et "précédent"
 const divModal = document.querySelector(".lightBox-modal-content");
 prevNext(divModal);
